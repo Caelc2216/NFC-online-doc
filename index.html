@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tap to Save Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f7f9fd; --surface:#ffffff; --fg:#14213a; --muted:#52607a; --line:#dbe3f0;
+  --accent:#0066ff; --accent-ink:#0052cc; --accent-soft:#e8f0ff;
+  --badge-bg:#0052cc; --badge-fg:#ffffff;
+  --warn:#b91c1c; --warn-soft:#fef2f2; --ok:#0f7a45; --ok-soft:#e7f6ee;
+  --display:'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body:'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1426; --surface:#131e36; --fg:#e6ecf8; --muted:#a4b1ca; --line:#26355a;
+  --accent:#5c9dff; --accent-ink:#8ab8ff; --accent-soft:#16284d;
+  --badge-bg:#8ab8ff; --badge-fg:#0c1426;
+  --warn:#f87171; --warn-soft:#2c1418; --ok:#4ade80; --ok-soft:#10291c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1426; --surface:#131e36; --fg:#e6ecf8; --muted:#a4b1ca; --line:#26355a;
+  --accent:#5c9dff; --accent-ink:#8ab8ff; --accent-soft:#16284d;
+  --badge-bg:#8ab8ff; --badge-fg:#0c1426;
+  --warn:#f87171; --warn-soft:#2c1418; --ok:#4ade80; --ok-soft:#10291c; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6}
+a{color:var(--accent-ink);text-underline-offset:3px}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+
+/* header */
+.topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar .wrap{padding-block:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+
+/* hero */
+.hero{padding-block:32px 8px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:700}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,5vw,46px);line-height:1.08;margin:.2em 0 .35em;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.facts li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--muted)}
+.facts b{color:var(--fg)}
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin:24px 0 0}
+.flow ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.flow li{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;font-size:15px}
+.flow .dot{width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-family:var(--mono);font-size:12px}
+.flow-cap{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* content */
+main{padding-block:16px 48px}
+section{padding-block:8px 24px;border-bottom:1px solid var(--line);margin-bottom:24px}
+section:last-of-type{border-bottom:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,28px);line-height:1.15;margin:8px 0 10px;display:flex;gap:12px;align-items:baseline}
+h2 .num{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--badge-fg);background:var(--badge-bg);border-radius:6px;padding:3px 8px;flex:none;transform:translateY(-3px)}
+p{margin:0 0 12px}
+ol.do{padding-left:0;list-style:none;counter-reset:d;margin:0 0 16px;display:grid;gap:10px}
+ol.do>li{counter-increment:d;position:relative;padding-left:40px}
+ol.do>li::before{content:counter(d);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;border:2px solid var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;display:grid;place-items:center}
+.ui{font-weight:700;background:var(--accent-soft);color:var(--accent-ink);padding:1px 6px;border-radius:4px}
+code{font-family:var(--mono);font-size:.88em;overflow-wrap:anywhere}
+.note{border-radius:10px;padding:12px 16px;margin:14px 0;font-size:16px}
+.note b{display:block;margin-bottom:2px}
+.note.tip{background:var(--accent-soft)}
+.note.warn{background:var(--warn-soft);border:2px solid var(--warn)}
+.note.warn b{color:var(--warn)}
+.note.ok{background:var(--ok-soft)}
+.note.ok b{color:var(--ok)}
+
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:480px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--accent-soft);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
+tr:last-child td{border-bottom:0}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="4" y="2" width="12" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M19 9a6 6 0 0 1 0 8M22 6a10 10 0 0 1 0 14" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Tap to Save
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Online guide · iPhone edition</div>
+    <h1>Build an NFC contact card people can save with one tap</h1>
+    <p class="lede">You will make a contact file, put it online, and write its link to an NFC sticker. When someone taps the sticker, your contact opens and they tap <strong>Create New Contact</strong>.</p>
+    <ul class="facts">
+      <li><b>Time:</b> about 20 minutes</li>
+      <li><b>Cost:</b> one NFC sticker</li>
+      <li><b>Level:</b> beginner</li>
+    </ul>
+    <figure class="flow" aria-label="How it works">
+      <ol>
+        <li><span class="dot">.vcf</span><span>Your contact file lives at a web address</span></li>
+        <li><span class="dot">URL</span><span>The NFC tag stores only that address</span></li>
+        <li><span class="dot">tap</span><span>A phone reads the tag and opens your card</span></li>
+      </ol>
+      <figcaption class="flow-cap">Why a link? iPhones open links from tags automatically, but they ignore contact data stored on the tag itself.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<main class="wrap">
+  <section>
+    <h2>Before you start</h2>
+    <ul>
+      <li>An <b>iPhone XS or newer</b></li>
+      <li>A blank <b>NFC sticker</b> (NTAG213 or NTAG215)</li>
+      <li>The free <b>NFC Tools</b> app from the App Store</li>
+      <li>A free <b>GitHub</b> account to host your contact file</li>
+    </ul>
+    <div class="note warn"><b>Think before you share</b>Anyone who taps your tag can see everything in the contact file. Only include what you would put on a business card.</div>
+  </section>
+
+  <section>
+    <h2><span class="num">STEP 1</span>Make the contact file</h2>
+    <p>A contact file ends in <code>.vcf</code>. Every phone knows how to open one.</p>
+    <ol class="do">
+      <li>Open <span class="ui">Contacts</span> and tap <span class="ui">My Card</span> at the top.</li>
+      <li>Tap <span class="ui">Share Contact</span>, then <span class="ui">Save to Files</span>.</li>
+      <li>Rename the file to <code>contact.vcf</code>.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="num">STEP 2</span>Put it online</h2>
+    <p>The tag needs a web address that opens the file directly. GitHub Pages is free and works well for this.</p>
+    <ol class="do">
+      <li>Sign in at github.com and create a new <span class="ui">Public</span> repository named <code>yourusername.github.io</code>.</li>
+      <li>Click <span class="ui">Add file</span> → <span class="ui">Upload files</span>, add <code>contact.vcf</code>, then click <span class="ui">Commit changes</span>.</li>
+      <li>Wait a minute or two. Your link is <code>https://yourusername.github.io/contact.vcf</code></li>
+      <li>Open that link in Safari to check that your contact card appears.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="num">STEP 3</span>Write the link to the tag</h2>
+    <ol class="do">
+      <li>Open <span class="ui">NFC Tools</span> and tap <span class="ui">Write</span>.</li>
+      <li>Tap <span class="ui">Add a record</span> → <span class="ui">URL / URI</span>.</li>
+      <li>Paste your link from Step 2 and tap <span class="ui">OK</span>.</li>
+      <li>Tap <span class="ui">Write</span>, then hold the top edge of your iPhone against the sticker until it confirms.</li>
+    </ol>
+    <div class="note warn"><b>Metal blocks NFC</b>Stickers on metal surfaces won't read. Use anti-metal tags there.</div>
+  </section>
+
+  <section>
+    <h2><span class="num">STEP 4</span>Test it</h2>
+    <ol class="do">
+      <li>Close NFC Tools and unlock your iPhone.</li>
+      <li>Hold the top of the phone near the sticker and tap the notification.</li>
+      <li>Tap <span class="ui">Create New Contact</span> to confirm it saves.</li>
+    </ol>
+    <div class="note ok"><b>It works when</b>a friend's phone taps the tag and saves your contact in one tap.</div>
+    <div class="note tip"><b>Tip</b>To update your info later, upload a new <code>contact.vcf</code>. The tag keeps working because it only stores the link.</div>
+  </section>
+
+  <section>
+    <h2>Troubleshooting</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Nothing happens on tap</td><td>Unlock the phone, close NFC Tools, and hold the top edge to the tag.</td></tr>
+          <tr><td>Link opens a page instead of the card</td><td>Use a direct file link like GitHub Pages, not Google Drive or iCloud.</td></tr>
+          <tr><td>"Write failed" in NFC Tools</td><td>Move away from metal and hold still for two seconds.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn"><b>Locking is permanent</b>If you lock a tag in NFC Tools, it can never be rewritten.</div>
+  </section>
+</main>
+
+
+</body>
+</html>

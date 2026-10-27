@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tap to Save Contact</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 :root{
   --bg:#f7f9fd; --surface:#ffffff; --fg:#14213a; --muted:#52607a; --line:#dbe3f0;
   --accent:#0066ff; --accent-ink:#0052cc; --accent-soft:#e8f0ff;
   --badge-bg:#0052cc; --badge-fg:#ffffff;
   --warn:#b91c1c; --warn-soft:#fef2f2; --ok:#0f7a45; --ok-soft:#e7f6ee;
-  --display:'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
-  --body:'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --display:'Open Sans', 'Segoe UI', system-ui, sans-serif;
+  --body:'Open Sans', 'Segoe UI', system-ui, sans-serif;
   --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -69,6 +69,11 @@ code{font-family:var(--mono);font-size:.88em;overflow-wrap:anywhere}
 .note.warn b{color:var(--warn)}
 .note.ok{background:var(--ok-soft)}
 .note.ok b{color:var(--ok)}
+.note.icon{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.note.icon svg{margin-top:2px}
+.note.warn b+p{margin-top:0}
+.note p{margin:0 0 10px}
+.note p:last-child{margin-bottom:0}
 
 .tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:10px}
 table{border-collapse:collapse;width:100%;font-size:15px;min-width:480px}
@@ -148,10 +153,16 @@ tr:last-child td{border-bottom:0}
     <ol class="do">
       <li>Open <span class="ui">NFC Tools</span> and tap <span class="ui">Write</span>.</li>
       <li>Tap <span class="ui">Add a record</span> → <span class="ui">URL / URI</span>.</li>
-      <li>Paste your link from Step 2 and tap <span class="ui">OK</span>.</li>
+      <li>Paste your link from Step 2 and tap <span class="ui">✓</span>.</li>
       <li>Tap <span class="ui">Write</span>, then hold the top edge of your iPhone against the sticker until it confirms.</li>
     </ol>
-    <div class="note warn"><b>Metal blocks NFC</b>Stickers on metal surfaces won't read. Use anti-metal tags there.</div>
+    <div class="note warn icon">
+      <svg width="28" height="26" viewBox="0 0 28 26" aria-hidden="true"><path d="M14 2 26 24H2Z" fill="none" stroke="var(--warn)" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 10v7" stroke="var(--fg)" stroke-width="2.6" stroke-linecap="round"/><circle cx="14" cy="20.5" r="1.5" fill="var(--fg)"/></svg>
+      <div>
+        <b>Metal blocks NFC</b><p>Stickers on metal surfaces won't read. Use anti-metal tags there.</p>
+        <b>Locking is permanent</b><p>If you lock a tag in NFC Tools, it can never be rewritten.</p>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -161,7 +172,10 @@ tr:last-child td{border-bottom:0}
       <li>Hold the top of the phone near the sticker and tap the notification.</li>
       <li>Tap <span class="ui">Create New Contact</span> to confirm it saves.</li>
     </ol>
-    <div class="note ok"><b>It works when</b>a friend's phone taps the tag and saves your contact in one tap.</div>
+    <div class="note ok icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--ok)"/><path d="M8 14.5l4 4 8-9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><b>It works when</b>a friend's phone taps the tag and saves your contact in one tap.</div>
+    </div>
     <div class="note tip"><b>Tip</b>To update your info later, upload a new <code>contact.vcf</code>. The tag keeps working because it only stores the link.</div>
   </section>
 
@@ -177,7 +191,6 @@ tr:last-child td{border-bottom:0}
         </tbody>
       </table>
     </div>
-    <div class="note warn"><b>Locking is permanent</b>If you lock a tag in NFC Tools, it can never be rewritten.</div>
   </section>
 </main>
 
